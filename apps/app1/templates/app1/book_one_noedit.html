@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Selected Book no edit</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'app1/book_one_noedit.css' %}">
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-10">
+                <h1>Welcome,{{user_logged_name}}!</h1>
+            </div>
+            <div class="col-2">
+                <form action="/logout" method="post">
+                    {% csrf_token %}
+                    <input type="hidden" name="logout">
+                    <button type="submit" class="btn btn-danger">Log Out</button>
+                </form>
+            </div>
+        </div>
+        <div class="row">
+            <hr>
+        </div>
+        <div class="row">
+            <div class="col-6">
+                <form action="/update_book" method="post">
+                    {% csrf_token %}
+                    <div class="row headertitle">
+                        <div class="col-12 title">{{book_title}}</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-3">Added by:</div>
+                        <div class="col-8">{{book_addedby}}</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-3">Added on:</div>
+                        <div class="col-8">{{book_created}}</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-4">Last updated on:</div>
+                        <div class="col-7">{{book_updated}}</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-3">Description:</div>
+                        <div class="col-8 desc">{{book_desc}}</div>
+                    </div>
+                </form>
+            </div>
+            <div class="col-6">
+                <h2>Users Who Like This Book:</h2>
+                <div class="col-12 likelist">
+                    <div class="col-12">
+                        {% for user in book_likedby_userlist %}
+                        <table>
+                            <tbody>
+                                <tr>
+                                    <td><li>{{user.first_name}} {{user.last_name}}</li></td>
+                                    <td>{% if this_user_id == user.id %}
+                                        <form action="/unfavorite" method="post">
+                                            {% csrf_token %}
+                                        <input type="hidden" name="user_to_unfavorite" value={{this_user_id}}>
+                                    <input type="hidden" name="book_to_unfavorite" value={{book_id}}>
+                                <button class="btn btn-danger">Unfavorite</button></form>
+                                        {%endif%}
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        {% endfor %}
+                    </div>
+                </div>
+                <div class="col-12">
+                    <form action="/add_fav" method="post">
+                        {% csrf_token %}
+                        <input type="hidden" name="book_id" value="{{book_id}}">
+                        <button class="btn btn-warning" name="addfav">Add to Favorites</button>
+                    </form>
+
+                </div>
+            </div>
+
+        </div>
+            
+    </div>
+</body>
+</html>

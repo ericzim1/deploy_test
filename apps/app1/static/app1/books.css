@@ -1,0 +1,28 @@
+div.container{
+    margin: 50px;
+    width: 960px;
+    height: 800px;
+}
+hr{
+    line-height: 4px;
+    color: black;
+    width: 960px;
+}
+div.headertitle{
+    margin: 10px;
+}
+div.headerdesc{
+    margin: 10px;
+}
+input.desc{
+    min-height: 100px;
+}
+div.addbtn{
+    margin: 10px 180px 0px 180px;
+}
+div.booklist{
+    overflow-y: scroll;
+    min-height: 400px;
+    max-height: 500px;
+    outline: 1px solid black;
+}

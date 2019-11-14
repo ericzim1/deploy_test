@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Books</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'app1/books.css' %}">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-10">
+                <h1>Welcome,{{user_logged_name}}!</h1>
+            </div>
+            <div class="col-2">
+                <form action="/logout" method="post">
+                    {% csrf_token %}
+                    <input type="hidden" name="logout">
+                    <button type="submit" class="btn btn-danger">Log Out</button>
+                </form>
+            </div>
+        </div>
+        <div class="row">
+            <hr>
+        </div>
+        <div class="row">
+            <div class="col-6">
+                    {% if messages %}
+                    <ul class="messages">    
+                        {% for message in messages %}    
+                            <li {% if message.tags %} class="{{ message.tags }}copy"{% endif %}>{{ message }}</li>    
+                        {% endfor %}
+                    </ul>
+                    {% endif %}
+                <form action="/add_book" method="post">
+                    {% csrf_token %}
+                    <h2 class="col-12">Add a Favorite Book</h2>
+                    <div class="row headertitle">
+                        <p class="col-3">Title:</p>
+                        <input type="text" name="new_title" value="" class="col-9 title">
+                    </div>
+                    <div class="row headerdesc">
+                        <p class="col-3">Description:</p>
+                        <input type="text" name="new_desc" value="" class="col-9 desc">
+                    </div>
+                    <div class="row addbtn">
+                        <button type="submit" class="btn btn-danger col-9" name="add">Add</button>
+                    </div>
+                </form>
+            </div>
+            <div class="col-6">
+                <h2>All Books</h2>
+                <div class="col-12 booklist">
+                    {% for books in all_books %}
+                    <div class="col-12">
+                        <h4><a href="/books/{{books.id}}">{{books.title}}</a></h4>
+                        <p>(added by {{books.uploaded_by.first_name}} {{books.uploaded_by.last_name}})</p>
+                        {% if this_user_id in books.users_who_like.all %}
+                            <p>this book is one of your favorites</p>
+                            {% else %}
+                        <form action="/add_fav" method="post">
+                            {% csrf_token %}
+                            <input type="hidden" name="book_id" value="{{books.id}}">
+                            <button class="btn btn-warning" name="addfav">Add to Favorites</button>
+                        </form>
+                        {% endif %}
+                    </div>
+                    <p></p>
+                    {% endfor %}
+                </div>
+            </div>
+
+        </div>
+            
+    </div>
+</body>
+</html>

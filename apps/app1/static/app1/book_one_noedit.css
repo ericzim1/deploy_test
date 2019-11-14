@@ -1,0 +1,31 @@
+div.container{
+    margin: 50px;
+    width: 1100px;
+    height: 800px;
+}
+hr{
+    line-height: 4px;
+    color: black;
+    width: 1100px;
+}
+div.title{
+    font-size: 28px;
+    font-weight: bold;
+}
+div.headertitle{
+    margin: 10px;
+}
+div.desc{
+    text-align: start;
+    min-height: 70px;
+    margin-bottom: 10px;
+}
+div.updatebtn{
+    margin: 10px 180px 0px 180px;
+}
+div.likelist{
+    overflow-y: scroll;
+    min-height: 400px;
+    outline: 1px solid black;
+    margin-bottom: 15px;
+}
